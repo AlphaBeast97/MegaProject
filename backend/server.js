@@ -1,0 +1,45 @@
+import express from "express";
+import cors from "cors";
+import ENV from "./utils/env.js";
+import { connectDB } from "./utils/db.js";
+import userRoutes from "./routes/user.routes.js";
+import recipeRoutes from "./routes/recipe.routes.js";
+import axios from "axios";
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+const PORT = ENV.PORT;
+
+app.get("/", (req, res) => {
+  res.send("Welcome to the backend server!");
+});
+app.get("/api/n8n", async (req, res) => {
+  // ping
+  try {
+    const response = await axios.get(ENV.n8nWebhookUrlPing);
+    res.status(200).json(response.data);
+    console.log("Pinged n8n successfully:", response.data);
+  } catch (error) {
+    console.error("Error pinging n8n:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.use("/api", userRoutes);
+app.use("/api", recipeRoutes);
+
+const startServer = async () => {
+  try {
+    await connectDB();
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
+    process.exit(1); // Exit the process with failure
+  }
+};
+
+startServer();
