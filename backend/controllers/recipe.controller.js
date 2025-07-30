@@ -1,6 +1,7 @@
 import axios from "axios";
 import Recipe from "../models/recipe.model.js";
 import ENV from "../utils/env.js";
+import { generateImageWithGeminiAndUpload } from "../libs/image_generator.js";
 
 export const getRecipesByUser = async (req, res) => {
   try {
@@ -31,18 +32,18 @@ export const getRecipeById = async (req, res) => {
 export const createRecipe = async (req, res) => {
   try {
     const n8n_Recipe = await axios.post(ENV.n8nWebhookUrlRecipeUrl, req.body);
-    // if (!n8n_Recipe.data.success) {
-    //   return res.status(200).json({ error: n8n_Recipe.data.message });
-    // }
-    // const Recipe_data = {
-    //   title: n8n_Recipe.title || "Untitled Recipe",
-    //   ingredients: n8n_Recipe.ingredients || [],
-    //   instructions: n8n_Recipe.instructions || [],
-    //   userId: n8n_Recipe.userId || null,
-    // };
-    console.log("Recipe data", n8n_Recipe.data);
-
-    // const newRecipe = new Recipe();
+    const imageUrl = await generateImageWithGeminiAndUpload(
+      n8n_Recipe?.data?.image_prompt
+    );
+    const Recipe_data = {
+      title: n8n_Recipe?.data?.title || "Untitled Recipe",
+      ingredients: n8n_Recipe?.data?.ingredients || [],
+      instructions: n8n_Recipe?.data?.instructions || [],
+      userId: n8n_Recipe?.data?.userid || null,
+      imageUrl: imageUrl || null,
+    };
+    console.log("Recipe data to be saved:", Recipe_data);
+    // const newRecipe = new Recipe(Recipe_data);
     // await newRecipe.save();
     // res.status(201).json(newRecipe);
   } catch (error) {
