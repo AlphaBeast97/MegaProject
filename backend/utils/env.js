@@ -6,6 +6,8 @@ const ENV = {
   MONGO_DB_URI: process.env.MONGO_DB_URI,
   PORT: process.env.PORT || 5000,
 
+  geminiAPIKey: process.env.GEMINI_API_KEY,
+
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
