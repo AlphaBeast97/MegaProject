@@ -32,9 +32,12 @@ export const getRecipeById = async (req, res) => {
 export const createRecipe = async (req, res) => {
   try {
     const n8n_Recipe = await axios.post(ENV.n8nWebhookUrlRecipeUrl, req.body);
-    const imageUrl = await generateSingleImageAndUpload(
-      n8n_Recipe?.data?.image_prompt
-    );
+    let imageUrl = null;
+    if (n8n_Recipe?.data?.image_prompt) { 
+       imageUrl = await generateSingleImageAndUpload(
+        n8n_Recipe?.data?.image_prompt
+      );
+    }
     const Recipe_data = {
       title: n8n_Recipe?.data?.title || "Untitled Recipe",
       ingredients: n8n_Recipe?.data?.ingredients || [],
