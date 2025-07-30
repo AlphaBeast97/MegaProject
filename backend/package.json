@@ -14,14 +14,13 @@
   "type": "module",
   "dependencies": {
     "@clerk/express": "^1.7.14",
-    "@google/generative-ai": "^0.24.1",
+    "@google/genai": "^1.11.0",
     "axios": "^1.11.0",
     "cloudinary": "^2.7.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "mongoose": "^8.16.5",
-    "node-fetch": "^3.3.2"
+    "mongoose": "^8.16.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

@@ -1,7 +1,7 @@
 import axios from "axios";
 import Recipe from "../models/recipe.model.js";
 import ENV from "../utils/env.js";
-import { generateImageWithGeminiAndUpload } from "../libs/image_generator.js";
+import { generateSingleImageAndUpload } from "../libs/image_generator.js";
 
 export const getRecipesByUser = async (req, res) => {
   try {
@@ -32,7 +32,7 @@ export const getRecipeById = async (req, res) => {
 export const createRecipe = async (req, res) => {
   try {
     const n8n_Recipe = await axios.post(ENV.n8nWebhookUrlRecipeUrl, req.body);
-    const imageUrl = await generateImageWithGeminiAndUpload(
+    const imageUrl = await generateSingleImageAndUpload(
       n8n_Recipe?.data?.image_prompt
     );
     const Recipe_data = {
