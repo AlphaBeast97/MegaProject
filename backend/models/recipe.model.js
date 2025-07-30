@@ -7,8 +7,8 @@ const recipeSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
+    clerkId: {
+      type: String,
       ref: "User",
       required: true,
     },
@@ -24,6 +24,11 @@ const recipeSchema = new mongoose.Schema(
         required: true,
       },
     ],
+    imageUrl: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
   { timestamps: true }
 );

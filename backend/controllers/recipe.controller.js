@@ -39,13 +39,13 @@ export const createRecipe = async (req, res) => {
       title: n8n_Recipe?.data?.title || "Untitled Recipe",
       ingredients: n8n_Recipe?.data?.ingredients || [],
       instructions: n8n_Recipe?.data?.instructions || [],
-      userId: n8n_Recipe?.data?.userid || null,
-      imageUrl: imageUrl || null,
+      clerkId: n8n_Recipe?.data?.userid || "",
+      imageUrl: imageUrl || "",
     };
     console.log("Recipe data to be saved:", Recipe_data);
-    // const newRecipe = new Recipe(Recipe_data);
-    // await newRecipe.save();
-    // res.status(201).json(newRecipe);
+    const newRecipe = new Recipe({ ...Recipe_data });
+    await newRecipe.save();
+    res.status(201).json(newRecipe);
   } catch (error) {
     console.error("Error creating recipe:", error);
     res.status(500).json({ error: "Internal server error" });
