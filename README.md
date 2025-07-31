@@ -40,7 +40,6 @@ Culinary Canvas is a modern, intelligent recipe management application that tran
 - **Styling**: Tailwind CSS
 - **UI Components**: shadcn/ui with Radix UI primitives
 - **Authentication**: Clerk
-- **AI Integration**: Genkit with Gemini AI
 - **Image Handling**: Next.js Image optimization + Cloudinary
 - **State Management**: React Hooks + Server Actions
 
@@ -142,9 +141,6 @@ CLERK_SECRET_KEY=sk_test_your-key
 
 # API Configuration
 NEXT_PUBLIC_API_BASE_URL=http://localhost:5000/api
-
-# AI Configuration
-GOOGLE_GENAI_API_KEY=your-gemini-api-key
 
 # App URLs
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
