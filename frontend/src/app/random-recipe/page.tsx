@@ -25,86 +25,44 @@ export default function RandomRecipePage() {
     const [dietary, setDietary] = useState('Any');
     const [generatedRecipe, setGeneratedRecipe] = useState<any>(null);
 
-    const randomRecipes = [
-        {
-            title: "Mediterranean Quinoa Bowl",
-            description: "A healthy and colorful bowl packed with fresh vegetables and quinoa",
-            cuisine: "Mediterranean",
-            difficulty: "Easy",
-            prepTime: "15 min",
-            cookTime: "20 min",
-            servings: 4,
-            imageUrl: "https://placehold.co/400x300",
-            ingredients: [
-                "1 cup quinoa",
-                "2 cups vegetable broth",
-                "1 cucumber, diced",
-                "2 tomatoes, chopped",
-                "1/2 red onion, sliced",
-                "1/4 cup olives",
-                "1/4 cup feta cheese",
-                "2 tbsp olive oil",
-                "1 lemon, juiced",
-                "Fresh herbs"
-            ],
-            instructions: [
-                "Cook quinoa in vegetable broth until fluffy",
-                "Let quinoa cool to room temperature",
-                "Prepare all vegetables and herbs",
-                "Mix olive oil and lemon juice for dressing",
-                "Combine quinoa with vegetables",
-                "Top with feta cheese and olives",
-                "Drizzle with dressing and serve"
-            ]
-        },
-        {
-            title: "Spicy Korean Kimchi Fried Rice",
-            description: "A flavorful and spicy dish made with fermented kimchi and rice",
-            cuisine: "Asian",
-            difficulty: "Medium",
-            prepTime: "10 min",
-            cookTime: "15 min",
-            servings: 3,
-            imageUrl: "https://placehold.co/400x300",
-            ingredients: [
-                "3 cups cooked rice (preferably day-old)",
-                "1 cup kimchi, chopped",
-                "2 eggs",
-                "2 green onions, sliced",
-                "2 tbsp sesame oil",
-                "2 tbsp soy sauce",
-                "1 tbsp gochujang",
-                "1 clove garlic, minced",
-                "Sesame seeds for garnish"
-            ],
-            instructions: [
-                "Heat sesame oil in a large pan or wok",
-                "Add garlic and cook until fragrant",
-                "Add kimchi and cook for 2-3 minutes",
-                "Add rice and break up any clumps",
-                "Mix in soy sauce and gochujang",
-                "Push rice to one side and scramble eggs",
-                "Mix everything together",
-                "Garnish with green onions and sesame seeds"
-            ]
-        }
-    ];
-
+    const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000/api';
     const handleGenerateRandomRecipe = async () => {
         setIsGenerating(true);
         try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            const token = await getToken();
 
-            // For demo, pick a random recipe from the array
-            const randomIndex = Math.floor(Math.random() * randomRecipes.length);
-            setGeneratedRecipe(randomRecipes[randomIndex]);
+            const response = await fetch(`${API_URL}/recipes`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    type: "random",
+                    content: {
+                        userid: user?.id,
+                        preferences: {
+                            cuisine: cuisine !== 'Any' ? cuisine : undefined,
+                            difficulty: difficulty !== 'Any' ? difficulty : undefined,
+                            dietary: dietary !== 'Any' ? dietary : undefined,
+                        }
+                    }
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to generate recipe');
+            }
+
+            const generatedRecipe = await response.json();
+            setGeneratedRecipe(generatedRecipe);
 
             toast({
                 title: "Random Recipe Generated!",
                 description: "Here's a delicious recipe suggestion for you.",
             });
         } catch (error) {
+            console.error('Error generating recipe:', error);
             toast({
                 title: "Error",
                 description: "Failed to generate recipe. Please try again.",
@@ -261,7 +219,7 @@ export default function RandomRecipePage() {
                                     <div className="md:w-1/3">
                                         <div className="relative h-48 w-full">
                                             <Image
-                                                src={generatedRecipe.imageUrl}
+                                                src={generatedRecipe.imageUrl || 'https://placehold.co/400x300'}
                                                 alt={generatedRecipe.title}
                                                 fill
                                                 className="object-cover rounded-lg"
@@ -273,22 +231,22 @@ export default function RandomRecipePage() {
                                         <p className="text-muted-foreground mb-4">{generatedRecipe.description}</p>
 
                                         <div className="flex flex-wrap gap-2 mb-4">
-                                            <Badge variant="secondary">{generatedRecipe.cuisine}</Badge>
-                                            <Badge variant="outline">{generatedRecipe.difficulty}</Badge>
+                                            {generatedRecipe.category && <Badge variant="secondary">{generatedRecipe.category}</Badge>}
+                                            <Badge variant="outline">AI Generated</Badge>
                                         </div>
 
                                         <div className="grid grid-cols-3 gap-4 text-sm">
                                             <div className="flex items-center">
                                                 <Clock className="h-4 w-4 mr-1 text-muted-foreground" />
-                                                <span>Prep: {generatedRecipe.prepTime}</span>
+                                                <span>Prep: {generatedRecipe.prepTime || 'N/A'}</span>
                                             </div>
                                             <div className="flex items-center">
                                                 <Clock className="h-4 w-4 mr-1 text-muted-foreground" />
-                                                <span>Cook: {generatedRecipe.cookTime}</span>
+                                                <span>Cook: {generatedRecipe.cookTime || 'N/A'}</span>
                                             </div>
                                             <div className="flex items-center">
                                                 <Users className="h-4 w-4 mr-1 text-muted-foreground" />
-                                                <span>Serves: {generatedRecipe.servings}</span>
+                                                <span>Category: {generatedRecipe.category || 'Uncategorized'}</span>
                                             </div>
                                         </div>
                                     </div>

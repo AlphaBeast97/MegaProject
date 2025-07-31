@@ -7,6 +7,18 @@ const recipeSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    description: {
+      type: String,
+      required: false,
+      trim: true,
+      default: "",
+    },
+    category: {
+      type: String,
+      required: false,
+      trim: true,
+      default: "Uncategorized",
+    },
     clerkId: {
       type: String,
       ref: "User",
@@ -24,6 +36,16 @@ const recipeSchema = new mongoose.Schema(
         required: true,
       },
     ],
+    prepTime: {
+      type: String,
+      required: false,
+      default: "N/A",
+    },
+    cookTime: {
+      type: String,
+      required: false,
+      default: "N/A",
+    },
     imageUrl: {
       type: String,
       required: false,
