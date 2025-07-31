@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import { clerkMiddleware } from "@clerk/express";
 import ENV from "./utils/env.js";
 import { connectDB } from "./utils/db.js";
 import userRoutes from "./routes/user.routes.js";
@@ -7,11 +8,18 @@ import recipeRoutes from "./routes/recipe.routes.js";
 import axios from "axios";
 import { clerkMiddleware } from "@clerk/express";
 
+// Ensure Clerk secret key is set as environment variable
+process.env.CLERK_SECRET_KEY = ENV.clerkSecretKey;
+
 const app = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://nexium-saad-assign2.vercel.app"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:9002",
+      "https://nexium-saad-assign2.vercel.app",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
@@ -20,6 +28,8 @@ app.use(
 app.use(clerkMiddleware());
 
 app.use(express.json());
+app.use(clerkMiddleware());
+
 const PORT = ENV.PORT;
 
 app.get("/", (req, res) => {
