@@ -6,7 +6,6 @@ import { connectDB } from "./utils/db.js";
 import userRoutes from "./routes/user.routes.js";
 import recipeRoutes from "./routes/recipe.routes.js";
 import axios from "axios";
-import { clerkMiddleware } from "@clerk/express";
 
 // Ensure Clerk secret key is set as environment variable
 process.env.CLERK_SECRET_KEY = ENV.clerkSecretKey;
