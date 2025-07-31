@@ -39,7 +39,11 @@ export default function Dashboard() {
         if (response.ok) {
           const data = await response.json();
           console.log('Fetched recipes:', data); // Debug log
-          setRecipes(Array.isArray(data) ? data : []);
+          // Sort recipes by creation date (newest first)
+          const sortedRecipes = Array.isArray(data)
+            ? data.sort((a, b) => new Date(b.createdAt || b._id).getTime() - new Date(a.createdAt || a._id).getTime())
+            : [];
+          setRecipes(sortedRecipes);
         } else {
           console.error('Failed to fetch recipes:', response.status, response.statusText);
           setError('Failed to fetch recipes');

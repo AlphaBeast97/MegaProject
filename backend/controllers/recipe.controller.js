@@ -68,7 +68,7 @@ export const createRecipe = async (req, res) => {
       prepTime: n8n_Recipe?.data?.prepTime || "N/A",
       cookTime: n8n_Recipe?.data?.cookTime || "N/A",
       clerkId: n8n_Recipe?.data?.userid || "",
-      imageUrl: n8n_Recipe?.data?.imageUrl || "",
+      imageUrl: n8n_Recipe?.data?.imageUrl || imageUrl || "",
     };
     console.log("Recipe data to be saved:", Recipe_data);
     const newRecipe = new Recipe({ ...Recipe_data });

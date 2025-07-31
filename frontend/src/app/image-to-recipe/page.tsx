@@ -21,6 +21,43 @@ export default function ImageToRecipePage() {
     const [isGenerating, setIsGenerating] = useState(false);
     const [generatedRecipe, setGeneratedRecipe] = useState<any>(null);
 
+    const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000/api';
+
+    // Function to upload image to backend (which uploads to Cloudinary)
+    const uploadImageToCloudinary = async (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                try {
+                    const base64Data = e.target?.result as string;
+                    const token = await getToken();
+
+                    const response = await fetch(`${API_URL}/upload-image`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`,
+                        },
+                        body: JSON.stringify({
+                            image: base64Data
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to upload image');
+                    }
+
+                    const data = await response.json();
+                    resolve(data.imageUrl);
+                } catch (error) {
+                    reject(error);
+                }
+            };
+            reader.onerror = () => reject(new Error('Failed to read file'));
+            reader.readAsDataURL(file);
+        });
+    };
+
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
@@ -38,35 +75,51 @@ export default function ImageToRecipePage() {
 
         setIsGenerating(true);
         try {
-            // TODO: Implement actual API call to analyze image and generate recipe
-            // For now, simulate the process
-            await new Promise(resolve => setTimeout(resolve, 3000));
-
-            // Simulated response
-            setGeneratedRecipe({
-                title: "Delicious Pasta Dish",
-                description: "A mouth-watering pasta recipe detected from your image",
-                ingredients: [
-                    "2 cups pasta",
-                    "1 cup tomato sauce",
-                    "1/2 cup cheese",
-                    "2 cloves garlic",
-                    "Fresh basil"
-                ],
-                instructions: [
-                    "Boil water and cook pasta according to package directions",
-                    "In a pan, sauté garlic until fragrant",
-                    "Add tomato sauce and simmer",
-                    "Combine with pasta and top with cheese",
-                    "Garnish with fresh basil"
-                ]
+            toast({
+                title: "Uploading Image...",
+                description: "Please wait while we upload your image.",
             });
+
+            // Step 1: Upload image to Cloudinary
+            const imageUrl = await uploadImageToCloudinary(selectedImage);
+            console.log('Image uploaded to Cloudinary:', imageUrl);
+
+            toast({
+                title: "Analyzing Image...",
+                description: "Our AI is analyzing your image to generate a recipe.",
+            });
+
+            // Step 2: Send request to backend with image URL
+            const token = await getToken();
+            const response = await fetch(`${API_URL}/recipes`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    type: "image",
+                    content: {
+                        userid: user?.id,
+                        image: imageUrl
+                    }
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to generate recipe from image');
+            }
+
+            const generatedRecipe = await response.json();
+            console.log('Generated recipe:', generatedRecipe);
+            setGeneratedRecipe(generatedRecipe);
 
             toast({
                 title: "Recipe Generated!",
                 description: "We've analyzed your image and created a recipe for you.",
             });
         } catch (error) {
+            console.error('Error generating recipe:', error);
             toast({
                 title: "Error",
                 description: "Failed to generate recipe. Please try again.",
@@ -185,7 +238,7 @@ export default function ImageToRecipePage() {
                                 {isGenerating ? (
                                     <>
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                        Analyzing Image...
+                                        Processing Image...
                                     </>
                                 ) : (
                                     <>
@@ -242,10 +295,6 @@ export default function ImageToRecipePage() {
                                         ))}
                                     </ol>
                                 </div>
-
-                                <Button className="w-full">
-                                    Save Recipe to Collection
-                                </Button>
                             </div>
                         ) : (
                             <div className="text-center py-12 text-muted-foreground">
