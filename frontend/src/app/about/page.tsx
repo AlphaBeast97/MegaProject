@@ -93,12 +93,16 @@ export default function AboutPage() {
           <div className="flex justify-center gap-8">
             <div className="flex flex-col items-center">
               <Users className="h-12 w-12 text-blue-500 mb-2" />
-              <h3 className="text-xl font-semibold">AlphaBeast</h3>
+              <Link href="https://github.com/AlphaBeast97" target="_blank" rel="noopener noreferrer">
+                <h3 className="text-xl font-semibold hover:text-blue-600 transition-colors">AlphaBeast</h3>
+              </Link>
               <p className="text-gray-600">Full Stack Developer</p>
             </div>
             <div className="flex flex-col items-center">
               <Users className="h-12 w-12 text-green-500 mb-2" />
-              <h3 className="text-xl font-semibold">MaximumCell</h3>
+              <Link href="https://github.com/MaximumCell" target="_blank" rel="noopener noreferrer">
+                <h3 className="text-xl font-semibold hover:text-green-600 transition-colors">MaximumCell</h3>
+              </Link>
               <p className="text-gray-600">Frontend Developer</p>
             </div>
           </div>
