@@ -5,6 +5,7 @@ import { connectDB } from "./utils/db.js";
 import userRoutes from "./routes/user.routes.js";
 import recipeRoutes from "./routes/recipe.routes.js";
 import axios from "axios";
+import { clerkMiddleware } from "@clerk/express";
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(clerkMiddleware());
 
 app.use(express.json());
 const PORT = ENV.PORT;
