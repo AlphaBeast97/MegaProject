@@ -2,13 +2,26 @@ import axios from "axios";
 import Recipe from "../models/recipe.model.js";
 import ENV from "../utils/env.js";
 import { generateSingleImageAndUpload } from "../libs/image_generator.js";
+import { getAuth } from "@clerk/express";
+import { extractUserIdFromToken } from "../utils/jwtUtils.js";
+
+// Helper function to get user ID from either Clerk auth or JWT token
+const getUserId = (req) => {
+  let { userid } = getAuth(req);
+  if (!userid) {
+    userid = extractUserIdFromToken(req);
+  }
+  return userid;
+};
 
 export const getRecipesByUser = async (req, res) => {
   try {
-    const recipes = await Recipe.find({ userId: req.params.userId });
-    if (!recipes) {
-      return res.status(404).json({ error: "No recipes found for this user" });
+    const userid = getUserId(req);
+    if (!userid) {
+      return res.status(401).json({ error: "Unauthorized" });
     }
+
+    const recipes = await Recipe.find({ clerkId: userid });
     res.json(recipes);
   } catch (error) {
     console.error("Error fetching recipes:", error);
