@@ -1,5 +1,3 @@
-// backend/libs/image_generator.js (Updated responseModalities)
-
 import ENV from "../utils/env.js";
 import { GoogleGenAI, Modality } from "@google/genai";
 import cloudinary from "cloudinary";
