@@ -27,7 +27,6 @@ app.use(
 app.use(clerkMiddleware());
 
 app.use(express.json());
-app.use(clerkMiddleware());
 
 const PORT = ENV.PORT;
 
