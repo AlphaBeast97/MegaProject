@@ -68,7 +68,7 @@ export const createRecipe = async (req, res) => {
       prepTime: n8n_Recipe?.data?.prepTime || "N/A",
       cookTime: n8n_Recipe?.data?.cookTime || "N/A",
       clerkId: n8n_Recipe?.data?.userid || "",
-      imageUrl: imageUrl || "",
+      imageUrl: n8n_Recipe?.data?.imageUrl || "",
     };
     console.log("Recipe data to be saved:", Recipe_data);
     const newRecipe = new Recipe({ ...Recipe_data });
@@ -94,7 +94,7 @@ export const uploadImage = async (req, res) => {
     // Upload base64 image to Cloudinary
     const result = await cloudinary.uploader.upload(req.body.image, {
       folder: "user-uploaded-images",
-      resource_type: "image"
+      resource_type: "image",
     });
 
     console.log(`Image uploaded to Cloudinary: ${result.secure_url}`);
