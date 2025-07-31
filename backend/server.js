@@ -17,7 +17,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:9002",
-      "https://nexium-saad-assign2.vercel.app",
+      "https://mega-project-livid.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
