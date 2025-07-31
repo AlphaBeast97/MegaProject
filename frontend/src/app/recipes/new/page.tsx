@@ -10,29 +10,28 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
-import { generateRecipeTitleAndDescription } from '@/ai/flows/generate-recipe-title-and-description';
-import { Lightbulb, PlusCircle, Trash2, Loader2, Sparkles } from 'lucide-react';
+import { PlusCircle, Trash2, Loader2, Sparkles, ChefHat } from 'lucide-react';
+import { useUser, useAuth } from '@clerk/nextjs';
 
 const recipeSchema = z.object({
-  title: z.string().min(3, 'Title must be at least 3 characters.'),
-  description: z.string().min(10, 'Description must be at least 10 characters.'),
-  ingredients: z.array(z.object({ value: z.string().min(1, 'Ingredient cannot be empty.') })),
-  instructions: z.array(z.object({ value: z.string().min(1, 'Instruction cannot be empty.') })),
+  ingredients: z.array(z.object({ value: z.string().min(1, 'Ingredient cannot be empty.') })).min(1, 'At least one ingredient is required'),
 });
 
 type RecipeFormValues = z.infer<typeof recipeSchema>;
 
 export default function NewRecipePage() {
   const { toast } = useToast();
+  const { user } = useUser();
+  const { getToken } = useAuth();
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedRecipe, setGeneratedRecipe] = useState<any>(null);
+
+  const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000/api';
 
   const form = useForm<RecipeFormValues>({
     resolver: zodResolver(recipeSchema),
     defaultValues: {
-      title: '',
-      description: '',
       ingredients: [{ value: '' }],
-      instructions: [{ value: '' }],
     },
   });
 
@@ -41,38 +40,60 @@ export default function NewRecipePage() {
     name: 'ingredients',
   });
 
-  const { fields: instructionFields, append: appendInstruction, remove: removeInstruction } = useFieldArray({
-    control: form.control,
-    name: 'instructions',
-  });
-
   const handleGenerate = async () => {
-    setIsGenerating(true);
-    const ingredients = form.getValues('ingredients').map(i => i.value).join(', ');
-    const instructions = form.getValues('instructions').map(i => i.value).join('\n');
+    const ingredients = form.getValues('ingredients')
+      .map(i => i.value.trim())
+      .filter(i => i !== '');
 
-    if (!ingredients || !instructions) {
+    if (ingredients.length === 0) {
       toast({
         title: 'Error',
-        description: 'Please provide some ingredients and instructions to generate a title and description.',
+        description: 'Please provide at least one ingredient to generate a recipe.',
         variant: 'destructive',
       });
-      setIsGenerating(false);
       return;
     }
 
+    setIsGenerating(true);
     try {
-      const result = await generateRecipeTitleAndDescription({ ingredients, instructions });
-      form.setValue('title', result.title, { shouldValidate: true });
-      form.setValue('description', result.description, { shouldValidate: true });
       toast({
-        title: 'Success!',
-        description: 'Title and description have been generated.',
+        title: "Generating Recipe...",
+        description: "Our AI is creating a complete recipe from your ingredients.",
+      });
+
+      const token = await getToken();
+      const response = await fetch(`${API_URL}/recipes`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          type: "ingredients",
+          content: {
+            userid: user?.id,
+            ingredients: ingredients
+          }
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate recipe');
+      }
+
+      const generatedRecipe = await response.json();
+      console.log('Generated recipe:', generatedRecipe);
+      setGeneratedRecipe(generatedRecipe);
+
+      toast({
+        title: 'Recipe Generated!',
+        description: 'A complete recipe has been created from your ingredients.',
       });
     } catch (error) {
+      console.error('Error generating recipe:', error);
       toast({
         title: 'Generation Failed',
-        description: 'Could not generate title and description. Please try again.',
+        description: 'Could not generate recipe. Please try again.',
         variant: 'destructive',
       });
     } finally {
@@ -81,149 +102,137 @@ export default function NewRecipePage() {
   };
 
   const onSubmit = (data: RecipeFormValues) => {
-    console.log(data);
-    toast({
-      title: 'Recipe Submitted!',
-      description: 'Your new recipe has been saved.',
-    });
-    form.reset();
+    handleGenerate();
   };
 
   return (
-    <div className="container mx-auto p-0">
-      <h1 className="text-4xl font-headline font-bold mb-2">Create a New Recipe</h1>
-      <p className="text-muted-foreground mb-8">Fill out the details below to add a new recipe to your collection.</p>
+    <div className="container mx-auto p-0 max-w-4xl">
+      <h1 className="text-4xl font-headline font-bold mb-2">Create Recipe from Ingredients</h1>
+      <p className="text-muted-foreground mb-8">Add your ingredients and let AI create a complete recipe for you.</p>
       
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Recipe Details</CardTitle>
-              <CardDescription>Give your recipe a catchy title and a brief description.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Title</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g., Classic Lasagna" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <FormControl>
-                      <Textarea placeholder="A short, enticing summary of your dish..." {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Ingredients</CardTitle>
-               <CardDescription>List all the ingredients needed for your recipe.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {ingredientFields.map((field, index) => (
-                <FormField
-                  key={field.id}
-                  control={form.control}
-                  name={`ingredients.${index}.value`}
-                  render={({ field }) => (
-                    <FormItem className="flex items-center gap-2 mb-2">
-                       <FormControl>
-                        <Input placeholder={`Ingredient ${index + 1}`} {...field} />
-                      </FormControl>
-                      {ingredientFields.length > 1 && (
-                        <Button type="button" variant="ghost" size="icon" onClick={() => removeIngredient(index)}>
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      )}
-                    </FormItem>
+      <div className="grid lg:grid-cols-2 gap-8">
+        {/* Ingredients Input Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <ChefHat className="mr-2 h-5 w-5" />
+              Your Ingredients
+            </CardTitle>
+            <CardDescription>
+              List the ingredients you have available
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                {ingredientFields.map((field, index) => (
+                  <FormField
+                    key={field.id}
+                    control={form.control}
+                    name={`ingredients.${index}.value`}
+                    render={({ field }) => (
+                      <FormItem className="flex items-center gap-2">
+                        <FormControl>
+                          <Input placeholder={`Ingredient ${index + 1}`} {...field} />
+                        </FormControl>
+                        {ingredientFields.length > 1 && (
+                          <Button type="button" variant="ghost" size="icon" onClick={() => removeIngredient(index)}>
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        )}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                ))}
+                <Button type="button" variant="outline" size="sm" onClick={() => appendIngredient({ value: '' })}>
+                  <PlusCircle className="mr-2 h-4 w-4" /> Add Ingredient
+                </Button>
+                
+                <Button 
+                  type="submit" 
+                  className="w-full" 
+                  disabled={isGenerating}
+                >
+                  {isGenerating ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Generating Recipe...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="mr-2 h-4 w-4" />
+                      Generate Recipe
+                    </>
                   )}
-                />
-              ))}
-              <Button type="button" variant="outline" size="sm" onClick={() => appendIngredient({ value: '' })}>
-                <PlusCircle className="mr-2 h-4 w-4" /> Add Ingredient
-              </Button>
-            </CardContent>
-          </Card>
+                </Button>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Instructions</CardTitle>
-               <CardDescription>Provide step-by-step instructions.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {instructionFields.map((field, index) => (
-                 <FormField
-                  key={field.id}
-                  control={form.control}
-                  name={`instructions.${index}.value`}
-                  render={({ field }) => (
-                    <FormItem className="flex items-start gap-2 mb-2">
-                       <span className="mt-2 font-bold text-primary">{index + 1}.</span>
-                       <FormControl>
-                        <Textarea placeholder={`Step ${index + 1}`} {...field} />
-                      </FormControl>
-                       {instructionFields.length > 1 && (
-                        <Button type="button" variant="ghost" size="icon" onClick={() => removeInstruction(index)}>
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      )}
-                    </FormItem>
-                  )}
-                />
-              ))}
-              <Button type="button" variant="outline" size="sm" onClick={() => appendInstruction({ value: '' })}>
-                <PlusCircle className="mr-2 h-4 w-4" /> Add Step
-              </Button>
-            </CardContent>
-          </Card>
+        {/* Generated Recipe Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Sparkles className="mr-2 h-5 w-5" />
+              Generated Recipe
+            </CardTitle>
+            <CardDescription>
+              AI-created recipe based on your ingredients
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {generatedRecipe ? (
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">{generatedRecipe.title}</h3>
+                  <p className="text-muted-foreground">{generatedRecipe.description}</p>
+                </div>
 
-          <Card className="bg-secondary border-dashed">
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <Sparkles className="h-6 w-6 text-primary"/>
-                <CardTitle>AI Assistant</CardTitle>
+                <div>
+                  <h4 className="font-semibold mb-2">Ingredients:</h4>
+                  <ul className="space-y-1">
+                    {generatedRecipe.ingredients?.map((ingredient: string, index: number) => (
+                      <li key={index} className="text-sm flex items-center">
+                        <span className="w-2 h-2 bg-orange-500 rounded-full mr-2"></span>
+                        {ingredient}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold mb-2">Instructions:</h4>
+                  <ol className="space-y-2">
+                    {generatedRecipe.instructions?.map((instruction: string, index: number) => (
+                      <li key={index} className="text-sm flex">
+                        <span className="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xs font-medium mr-2">
+                          {index + 1}
+                        </span>
+                        {instruction}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+
+                {generatedRecipe.prepTime && (
+                  <div className="text-sm text-muted-foreground">
+                    <strong>Prep Time:</strong> {generatedRecipe.prepTime} | 
+                    <strong> Cook Time:</strong> {generatedRecipe.cookTime || 'N/A'} | 
+                    <strong> Category:</strong> {generatedRecipe.category || 'Uncategorized'}
+                  </div>
+                )}
               </div>
-              <CardDescription>Stuck? Let AI generate a title and description based on your ingredients and instructions.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button type="button" onClick={handleGenerate} disabled={isGenerating}>
-                {isGenerating ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <Lightbulb className="mr-2 h-4 w-4" />
-                    Generate with AI
-                  </>
-                )}
-              </Button>
-            </CardContent>
-          </Card>
-          
-          <div className="flex justify-end">
-            <Button type="submit" size="lg">Submit Recipe</Button>
-          </div>
-        </form>
-      </Form>
+            ) : (
+              <div className="text-center py-12 text-muted-foreground">
+                <ChefHat className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <p>Add ingredients and generate a recipe</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

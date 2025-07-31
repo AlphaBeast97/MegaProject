@@ -55,6 +55,8 @@ export default function RandomRecipePage() {
             }
 
             const generatedRecipe = await response.json();
+            console.log('Generated recipe:', generatedRecipe);
+            console.log('Image URL:', generatedRecipe.imageUrl);
             setGeneratedRecipe(generatedRecipe);
 
             toast({
@@ -218,12 +220,31 @@ export default function RandomRecipePage() {
                                 <div className="flex flex-col md:flex-row gap-6">
                                     <div className="md:w-1/3">
                                         <div className="relative h-48 w-full">
-                                            <Image
-                                                src={generatedRecipe.imageUrl || 'https://placehold.co/400x300'}
-                                                alt={generatedRecipe.title}
-                                                fill
-                                                className="object-cover rounded-lg"
-                                            />
+                                            {generatedRecipe.imageUrl ? (
+                                                <Image
+                                                    src={generatedRecipe.imageUrl}
+                                                    alt={generatedRecipe.title}
+                                                    fill
+                                                    className="object-cover rounded-lg"
+                                                    onError={(e) => {
+                                                        console.error('Image load error:', e);
+                                                        // Hide the broken image and show fallback
+                                                        e.currentTarget.style.display = 'none';
+                                                        const fallback = e.currentTarget.nextElementSibling;
+                                                        if (fallback) fallback.style.display = 'block';
+                                                    }}
+                                                    unoptimized={true}
+                                                />
+                                            ) : null}
+                                            <div
+                                                className="absolute inset-0 bg-gradient-to-br from-orange-100 to-orange-200 rounded-lg flex items-center justify-center"
+                                                style={{ display: generatedRecipe.imageUrl ? 'none' : 'flex' }}
+                                            >
+                                                <div className="text-center text-orange-600">
+                                                    <Sparkles className="h-12 w-12 mx-auto mb-2" />
+                                                    <span className="text-sm font-medium">AI Recipe</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="md:w-2/3">
@@ -279,15 +300,6 @@ export default function RandomRecipePage() {
                                             ))}
                                         </ol>
                                     </div>
-                                </div>
-
-                                <div className="flex gap-3">
-                                    <Button className="flex-1">
-                                        Save to Collection
-                                    </Button>
-                                    <Button variant="outline">
-                                        Share Recipe
-                                    </Button>
                                 </div>
                             </div>
                         ) : (
