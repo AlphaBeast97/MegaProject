@@ -109,7 +109,7 @@ export default function RecipeDetailPage() {
           </div>
         </div>
         <CardContent className="p-6 md:p-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-center">
             <div className="flex flex-col items-center justify-center p-4 bg-secondary/50 rounded-lg">
               <Clock className="h-6 w-6 mb-2 text-primary" />
               <span className="font-semibold">Prep Time</span>
@@ -119,6 +119,16 @@ export default function RecipeDetailPage() {
               <Utensils className="h-6 w-6 mb-2 text-primary" />
               <span className="font-semibold">Cook Time</span>
               <span className="text-muted-foreground">{recipe.cookTime || 'N/A'}</span>
+            </div>
+            <div className="flex flex-col items-center justify-center p-4 bg-secondary/50 rounded-lg">
+              <Users className="h-6 w-6 mb-2 text-primary" />
+              <span className="font-semibold">Created</span>
+              <span className="text-muted-foreground">
+                {recipe.createdAt
+                  ? new Date(recipe.createdAt).toLocaleDateString()
+                  : 'Unknown'
+                }
+              </span>
             </div>
           </div>
 

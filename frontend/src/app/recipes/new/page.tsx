@@ -12,6 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useToast } from '@/hooks/use-toast';
 import { PlusCircle, Trash2, Loader2, Sparkles, ChefHat } from 'lucide-react';
 import { useUser, useAuth } from '@clerk/nextjs';
+import Image from 'next/image';
 
 const recipeSchema = z.object({
   ingredients: z.array(z.object({ value: z.string().min(1, 'Ingredient cannot be empty.') })).min(1, 'At least one ingredient is required'),
@@ -185,42 +186,92 @@ export default function NewRecipePage() {
           <CardContent>
             {generatedRecipe ? (
               <div className="space-y-6">
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">{generatedRecipe.title}</h3>
-                  <p className="text-muted-foreground">{generatedRecipe.description}</p>
+                {/* Recipe Header with Image */}
+                <div className="flex flex-col md:flex-row gap-6">
+                  {generatedRecipe.imageUrl && (
+                    <div className="md:w-1/3">
+                      <div className="relative h-48 w-full">
+                        <img
+                          src={generatedRecipe.imageUrl}
+                          alt={generatedRecipe.title}
+                          className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                          onError={(e) => {
+                            console.error('Image load error:', e);
+                            e.currentTarget.style.display = 'none';
+                            // Show fallback div
+                            const fallback = e.currentTarget.parentElement?.querySelector('.fallback-div');
+                            if (fallback) (fallback as HTMLElement).style.display = 'flex';
+                          }}
+                        />
+                        <div
+                          className="fallback-div absolute inset-0 bg-gradient-to-br from-orange-100 to-orange-200 rounded-lg flex items-center justify-center"
+                          style={{ display: 'none' }}
+                        >
+                          <div className="text-center text-orange-600">
+                            <ChefHat className="h-12 w-12 mx-auto mb-2" />
+                            <span className="text-sm font-medium">Recipe Image</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  <div className={generatedRecipe.imageUrl ? "md:w-2/3" : "w-full"}>
+                    <h3 className="text-2xl font-bold mb-2">{generatedRecipe.title}</h3>
+                    <p className="text-muted-foreground mb-4">{generatedRecipe.description}</p>
+
+                    {/* Recipe Metadata */}
+                    <div className="grid grid-cols-3 gap-4 text-sm mb-4">
+                      <div className="text-center p-2 bg-orange-50 rounded">
+                        <div className="font-semibold text-orange-700">Prep Time</div>
+                        <div className="text-orange-600">{generatedRecipe.prepTime || 'N/A'}</div>
+                      </div>
+                      <div className="text-center p-2 bg-orange-50 rounded">
+                        <div className="font-semibold text-orange-700">Cook Time</div>
+                        <div className="text-orange-600">{generatedRecipe.cookTime || 'N/A'}</div>
+                      </div>
+                      <div className="text-center p-2 bg-orange-50 rounded">
+                        <div className="font-semibold text-orange-700">Category</div>
+                        <div className="text-orange-600">{generatedRecipe.category || 'Uncategorized'}</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                <div>
-                  <h4 className="font-semibold mb-2">Ingredients:</h4>
-                  <ul className="space-y-1">
-                    {generatedRecipe.ingredients?.map((ingredient: string, index: number) => (
-                      <li key={index} className="text-sm flex items-center">
-                        <span className="w-2 h-2 bg-orange-500 rounded-full mr-2"></span>
-                        {ingredient}
-                      </li>
-                    ))}
-                  </ul>
+                {/* Ingredients and Instructions */}
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-semibold mb-3 text-lg">Ingredients:</h4>
+                    <ul className="space-y-2">
+                      {generatedRecipe.ingredients?.map((ingredient: string, index: number) => (
+                        <li key={index} className="text-sm flex items-start">
+                          <span className="w-2 h-2 bg-orange-500 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+                          {ingredient}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold mb-3 text-lg">Instructions:</h4>
+                    <ol className="space-y-3">
+                      {generatedRecipe.instructions?.map((instruction: string, index: number) => (
+                        <li key={index} className="text-sm flex">
+                          <span className="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xs font-medium mr-3 mt-0.5">
+                            {index + 1}
+                          </span>
+                          {instruction}
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
                 </div>
 
-                <div>
-                  <h4 className="font-semibold mb-2">Instructions:</h4>
-                  <ol className="space-y-2">
-                    {generatedRecipe.instructions?.map((instruction: string, index: number) => (
-                      <li key={index} className="text-sm flex">
-                        <span className="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xs font-medium mr-2">
-                          {index + 1}
-                        </span>
-                        {instruction}
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-
-                {generatedRecipe.prepTime && (
-                  <div className="text-sm text-muted-foreground">
-                    <strong>Prep Time:</strong> {generatedRecipe.prepTime} |
-                    <strong> Cook Time:</strong> {generatedRecipe.cookTime || 'N/A'} |
-                    <strong> Category:</strong> {generatedRecipe.category || 'Uncategorized'}
+                {/* Additional Recipe Details */}
+                {(generatedRecipe.createdAt || generatedRecipe._id) && (
+                  <div className="pt-4 border-t border-gray-200">
+                    <div className="text-xs text-muted-foreground">
+                      Recipe generated on {new Date(generatedRecipe.createdAt || generatedRecipe._id).toLocaleDateString()}
+                    </div>
                   </div>
                 )}
               </div>
