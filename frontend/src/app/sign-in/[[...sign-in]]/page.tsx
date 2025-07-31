@@ -12,7 +12,7 @@ export default function Page() {
           <h1 className="text-2xl font-bold text-gray-900">Welcome Back</h1>
           <p className="text-gray-600 mt-2">Sign in to your culinary canvas</p>
         </div>
-        <div className="bg-white rounded-lg shadow-lg p-1">
+        <div className="bg-white rounded-lg shadow-lg p-5 flex justify-center">
           <SignIn path="/sign-in" />
         </div>
       </div>
