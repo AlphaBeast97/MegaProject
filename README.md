@@ -147,6 +147,9 @@ NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
 NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
 NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
+
+# Cloudinary Name
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your-cloud-name
 ```
 
 ### Running the Application
@@ -190,8 +193,6 @@ Authorization: Bearer <your-clerk-jwt-token>
 - `GET /api/recipes` - Get user's recipes
 - `POST /api/recipes` - Create/generate recipe
 - `GET /api/recipes/:id` - Get specific recipe
-- `PUT /api/recipes/:id` - Update recipe
-- `DELETE /api/recipes/:id` - Delete recipe
 
 #### Image Upload
 
@@ -239,9 +240,9 @@ POST /api/recipes
   "content": {
     "userid": "user_123",
     "preferences": {
-      "cuisine": "Italian",
-      "difficulty": "Medium",
-      "dietary": "Vegetarian"
+      "cuisine": "Italian", //optional
+      "difficulty": "Medium", //optional
+      "dietary": "Vegetarian" //optional
     }
   }
 }
@@ -455,24 +456,6 @@ npm test           # Run test suite (if configured)
 # Validate image formats and sizes
 ```
 
-## 🤝 Contributing
-
-We welcome contributions! Please see our contributing guidelines:
-
-1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
-3. **Commit changes**: `git commit -m 'Add amazing feature'`
-4. **Push to branch**: `git push origin feature/amazing-feature`
-5. **Open a Pull Request**
-
-### Code Standards
-
-- Follow existing code style and conventions
-- Add TypeScript types for new features
-- Include proper error handling
-- Update documentation for new features
-- Test your changes thoroughly
-
 ## 📜 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -492,15 +475,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Next.js team** for the amazing framework
 - **shadcn/ui** for beautiful UI components
 
-## 📞 Support
-
-For support, email [support@culinarycanvas.com](mailto:support@culinarycanvas.com) or create an issue in the [GitHub repository](https://github.com/AlphaBeast97/MegaProject/issues).
-
 ## 🔗 Links
 
 - **Live Demo**: [https://mega-project-livid.vercel.app/](https://mega-project-livid.vercel.app/)
-- **Documentation**: [https://docs.culinarycanvas.com](https://docs.culinarycanvas.com)
-- **API Reference**: [https://api.culinarycanvas.com/docs](https://api.culinarycanvas.com/docs)
 
 ---
 
