@@ -502,7 +502,7 @@ For support, email [support@culinarycanvas.com](mailto:support@culinarycanvas.co
 
 ## 🔗 Links
 
-- **Live Demo**: [https://culinary-canvas.vercel.app](https://culinary-canvas.vercel.app)
+- **Live Demo**: [https://mega-project-livid.vercel.app/](https://mega-project-livid.vercel.app/)
 - **Documentation**: [https://docs.culinarycanvas.com](https://docs.culinarycanvas.com)
 - **API Reference**: [https://api.culinarycanvas.com/docs](https://api.culinarycanvas.com/docs)
 
