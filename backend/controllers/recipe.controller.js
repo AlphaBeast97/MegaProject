@@ -4,6 +4,14 @@ import ENV from "../utils/env.js";
 import { generateSingleImageAndUpload } from "../libs/image_generator.js";
 import { getAuth } from "@clerk/express";
 import { extractUserIdFromToken } from "../utils/jwtUtils.js";
+import cloudinary from "cloudinary";
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: ENV.cloud_name,
+  api_key: ENV.api_key,
+  api_secret: ENV.api_secret,
+});
 
 // Helper function to get user ID from either Clerk auth or JWT token
 const getUserId = (req) => {
@@ -69,5 +77,30 @@ export const createRecipe = async (req, res) => {
   } catch (error) {
     console.error("Error creating recipe:", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const uploadImage = async (req, res) => {
+  try {
+    const userid = getUserId(req);
+    if (!userid) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    if (!req.body.image) {
+      return res.status(400).json({ error: "No image data provided" });
+    }
+
+    // Upload base64 image to Cloudinary
+    const result = await cloudinary.uploader.upload(req.body.image, {
+      folder: "user-uploaded-images",
+      resource_type: "image"
+    });
+
+    console.log(`Image uploaded to Cloudinary: ${result.secure_url}`);
+    res.json({ imageUrl: result.secure_url });
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    res.status(500).json({ error: "Failed to upload image" });
   }
 };
