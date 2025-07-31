@@ -109,7 +109,7 @@ export default function NewRecipePage() {
     <div className="container mx-auto p-0 max-w-4xl">
       <h1 className="text-4xl font-headline font-bold mb-2">Create Recipe from Ingredients</h1>
       <p className="text-muted-foreground mb-8">Add your ingredients and let AI create a complete recipe for you.</p>
-      
+
       <div className="grid lg:grid-cols-2 gap-8">
         {/* Ingredients Input Section */}
         <Card>
@@ -148,10 +148,10 @@ export default function NewRecipePage() {
                 <Button type="button" variant="outline" size="sm" onClick={() => appendIngredient({ value: '' })}>
                   <PlusCircle className="mr-2 h-4 w-4" /> Add Ingredient
                 </Button>
-                
-                <Button 
-                  type="submit" 
-                  className="w-full" 
+
+                <Button
+                  type="submit"
+                  className="w-full"
                   disabled={isGenerating}
                 >
                   {isGenerating ? (
@@ -218,8 +218,8 @@ export default function NewRecipePage() {
 
                 {generatedRecipe.prepTime && (
                   <div className="text-sm text-muted-foreground">
-                    <strong>Prep Time:</strong> {generatedRecipe.prepTime} | 
-                    <strong> Cook Time:</strong> {generatedRecipe.cookTime || 'N/A'} | 
+                    <strong>Prep Time:</strong> {generatedRecipe.prepTime} |
+                    <strong> Cook Time:</strong> {generatedRecipe.cookTime || 'N/A'} |
                     <strong> Category:</strong> {generatedRecipe.category || 'Uncategorized'}
                   </div>
                 )}
