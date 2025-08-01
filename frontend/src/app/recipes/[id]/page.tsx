@@ -1,23 +1,22 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useUser, useAuth } from '@clerk/nextjs';
-import { useParams, useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Utensils, Clock, Users, Loader2, ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Recipe } from '@/types';
+import { useState, useEffect } from "react";
+import { useUser, useAuth } from "@clerk/nextjs";
+import { useParams } from "next/navigation";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Utensils, Clock, Users, Loader2, ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Recipe } from "@/types";
 
-const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000/api';
+const API_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api";
 
 export default function RecipeDetailPage() {
   const params = useParams();
-  const router = useRouter();
   const { user, isLoaded } = useUser();
   const { getToken } = useAuth();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
@@ -35,8 +34,8 @@ export default function RecipeDetailPage() {
 
         const response = await fetch(`${API_URL}/recipes/${params.id}`, {
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         });
 
@@ -44,13 +43,13 @@ export default function RecipeDetailPage() {
           const data = await response.json();
           setRecipe(data);
         } else if (response.status === 404) {
-          setError('Recipe not found');
+          setError("Recipe not found");
         } else {
-          setError('Failed to fetch recipe');
+          setError("Failed to fetch recipe");
         }
       } catch (err) {
-        setError('Error loading recipe');
-        console.error('Error fetching recipe:', err);
+        setError("Error loading recipe");
+        console.error("Error fetching recipe:", err);
       } finally {
         setLoading(false);
       }
@@ -79,7 +78,7 @@ export default function RecipeDetailPage() {
         </Link>
         <div className="text-center py-16">
           <h2 className="text-2xl font-semibold mb-2 text-red-600">Error</h2>
-          <p className="text-muted-foreground">{error || 'Recipe not found'}</p>
+          <p className="text-muted-foreground">{error || "Recipe not found"}</p>
         </div>
       </div>
     );
@@ -96,16 +95,22 @@ export default function RecipeDetailPage() {
       <Card className="overflow-hidden">
         <div className="relative h-64 md:h-96 w-full">
           <Image
-            src={recipe.imageUrl || 'https://placehold.co/600x400'}
+            src={recipe.imageUrl || "https://placehold.co/600x400"}
             alt={recipe.title}
             fill
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           <div className="absolute bottom-0 left-0 p-8">
-            <Badge className="mb-2 bg-primary text-primary-foreground">{recipe.category || 'Uncategorized'}</Badge>
-            <h1 className="text-4xl md:text-5xl font-headline font-bold text-white shadow-lg">{recipe.title}</h1>
-            <p className="text-lg text-white/90 mt-2 max-w-2xl">{recipe.description || 'No description available'}</p>
+            <Badge className="mb-2 bg-primary text-primary-foreground">
+              {recipe.category || "Uncategorized"}
+            </Badge>
+            <h1 className="text-4xl md:text-5xl font-headline font-bold text-white shadow-lg">
+              {recipe.title}
+            </h1>
+            <p className="text-lg text-white/90 mt-2 max-w-2xl">
+              {recipe.description || "No description available"}
+            </p>
           </div>
         </div>
         <CardContent className="p-6 md:p-8">
@@ -113,12 +118,16 @@ export default function RecipeDetailPage() {
             <div className="flex flex-col items-center justify-center p-4 bg-secondary/50 rounded-lg">
               <Clock className="h-6 w-6 mb-2 text-primary" />
               <span className="font-semibold">Prep Time</span>
-              <span className="text-muted-foreground">{recipe.prepTime || 'N/A'}</span>
+              <span className="text-muted-foreground">
+                {recipe.prepTime || "N/A"}
+              </span>
             </div>
             <div className="flex flex-col items-center justify-center p-4 bg-secondary/50 rounded-lg">
               <Utensils className="h-6 w-6 mb-2 text-primary" />
               <span className="font-semibold">Cook Time</span>
-              <span className="text-muted-foreground">{recipe.cookTime || 'N/A'}</span>
+              <span className="text-muted-foreground">
+                {recipe.cookTime || "N/A"}
+              </span>
             </div>
             <div className="flex flex-col items-center justify-center p-4 bg-secondary/50 rounded-lg">
               <Users className="h-6 w-6 mb-2 text-primary" />
@@ -126,15 +135,16 @@ export default function RecipeDetailPage() {
               <span className="text-muted-foreground">
                 {recipe.createdAt
                   ? new Date(recipe.createdAt).toLocaleDateString()
-                  : 'Unknown'
-                }
+                  : "Unknown"}
               </span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div>
-              <h2 className="text-2xl font-headline font-semibold mb-4">Ingredients</h2>
+              <h2 className="text-2xl font-headline font-semibold mb-4">
+                Ingredients
+              </h2>
               <ul className="space-y-2">
                 {recipe.ingredients?.length > 0 ? (
                   recipe.ingredients.map((ingredient, index) => (
@@ -155,7 +165,9 @@ export default function RecipeDetailPage() {
             </div>
 
             <div>
-              <h2 className="text-2xl font-headline font-semibold mb-4">Instructions</h2>
+              <h2 className="text-2xl font-headline font-semibold mb-4">
+                Instructions
+              </h2>
               <ol className="space-y-4">
                 {recipe.instructions?.length > 0 ? (
                   recipe.instructions.map((instruction, index) => (
@@ -167,7 +179,9 @@ export default function RecipeDetailPage() {
                     </li>
                   ))
                 ) : (
-                  <p className="text-muted-foreground">No instructions provided</p>
+                  <p className="text-muted-foreground">
+                    No instructions provided
+                  </p>
                 )}
               </ol>
             </div>

@@ -1,9 +1,15 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Clock } from 'lucide-react';
-import type { Recipe } from '@/types';
+import Link from "next/link";
+import Image from "next/image";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Clock } from "lucide-react";
+import type { Recipe } from "@/types";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -15,7 +21,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
       <Card className="overflow-hidden h-full flex flex-col transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1.5">
         <div className="relative h-48 w-full">
           <Image
-            src={recipe.imageUrl || 'https://placehold.co/600x400'}
+            src={recipe.imageUrl || "https://placehold.co/600x400"}
             alt={recipe.title}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -23,7 +29,9 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           />
         </div>
         <CardHeader>
-          <Badge variant="secondary" className="w-fit mb-2">{recipe.category}</Badge>
+          <Badge variant="secondary" className="w-fit mb-2">
+            {recipe.category}
+          </Badge>
           <CardTitle className="font-headline text-xl group-hover:text-primary transition-colors">
             {recipe.title}
           </CardTitle>
@@ -36,7 +44,9 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         <CardFooter>
           <div className="flex items-center text-sm text-muted-foreground">
             <Clock className="mr-2 h-4 w-4" />
-            <span>{recipe.prepTime} + {recipe.cookTime}</span>
+            <span>
+              {recipe.prepTime} + {recipe.cookTime}
+            </span>
           </div>
         </CardFooter>
       </Card>

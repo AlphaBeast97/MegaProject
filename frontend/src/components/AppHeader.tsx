@@ -1,5 +1,5 @@
-import { SidebarTrigger } from '@/components/ui/sidebar';
-import { UserNav } from '@/components/UserNav';
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { UserNav } from "@/components/UserNav";
 
 export default function AppHeader() {
   return (

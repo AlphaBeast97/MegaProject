@@ -1,29 +1,30 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useUser, useAuth } from '@clerk/nextjs';
-import RecipeCard from '@/components/recipes/RecipeCard';
-import { Recipe } from '@/types';
-import { Input } from '@/components/ui/input';
+import { useState, useEffect } from "react";
+import { useUser, useAuth } from "@clerk/nextjs";
+import RecipeCard from "@/components/recipes/RecipeCard";
+import { Recipe } from "@/types";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Search, Loader2, BookOpen, PlusCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import Link from 'next/link';
+} from "@/components/ui/select";
+import { Search, Loader2, BookOpen, PlusCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
 
-const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000/api';
+const API_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api";
 
 export default function RecipesPage() {
   const { user, isLoaded } = useUser();
   const { getToken } = useAuth();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [category, setCategory] = useState('all');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [category, setCategory] = useState("all");
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -39,8 +40,8 @@ export default function RecipesPage() {
 
         const response = await fetch(`${API_URL}/recipes`, {
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         });
 
@@ -48,11 +49,11 @@ export default function RecipesPage() {
           const data = await response.json();
           setRecipes(data);
         } else {
-          setError('Failed to fetch recipes');
+          setError("Failed to fetch recipes");
         }
       } catch (err) {
-        setError('Error loading recipes');
-        console.error('Error fetching recipes:', err);
+        setError("Error loading recipes");
+        console.error("Error fetching recipes:", err);
       } finally {
         setLoading(false);
       }
@@ -66,10 +67,13 @@ export default function RecipesPage() {
       recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .filter((recipe) =>
-      category === 'all' ? true : recipe.category === category
+      category === "all" ? true : recipe.category === category
     );
 
-  const categories = ['all', ...Array.from(new Set(recipes.map((r) => r.category || 'uncategorized')))];
+  const categories = [
+    "all",
+    ...Array.from(new Set(recipes.map((r) => r.category || "uncategorized"))),
+  ];
 
   if (!isLoaded || loading) {
     return (
@@ -92,7 +96,9 @@ export default function RecipesPage() {
   return (
     <div className="container mx-auto p-0">
       <div className="mb-8">
-        <h1 className="text-4xl font-headline font-bold mb-2">Your Recipe Collection</h1>
+        <h1 className="text-4xl font-headline font-bold mb-2">
+          Your Recipe Collection
+        </h1>
         <p className="text-muted-foreground">
           Browse, search, and get inspired by your saved recipes.
         </p>
@@ -131,7 +137,8 @@ export default function RecipesPage() {
             <BookOpen className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
             <h3 className="text-lg font-semibold mb-2">No recipes yet</h3>
             <p className="text-muted-foreground mb-4">
-              Start building your culinary collection by creating your first recipe.
+              Start building your culinary collection by creating your first
+              recipe.
             </p>
             <Link href="/recipes/new">
               <Button>
@@ -150,7 +157,9 @@ export default function RecipesPage() {
       ) : (
         <div className="text-center py-16">
           <h2 className="text-2xl font-semibold mb-2">No Recipes Found</h2>
-          <p className="text-muted-foreground">Try adjusting your search or filter.</p>
+          <p className="text-muted-foreground">
+            Try adjusting your search or filter.
+          </p>
         </div>
       )}
     </div>
