@@ -55,13 +55,13 @@ export default async function HomePage() {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
-            <Link href="/sign-up">
+            <Link href="/about">
               <Button
                 variant="outline"
                 size="lg"
                 className="border-orange-200 text-orange-600 hover:bg-orange-50"
               >
-                Try AI Features
+                About Us
               </Button>
             </Link>
           </div>
