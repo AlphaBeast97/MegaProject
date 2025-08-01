@@ -66,6 +66,14 @@ export default function ImageToRecipePage() {
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      if (file.size > 1024 * 1024) {
+        toast({
+          title: "Image too large",
+          description: "Please upload an image smaller than 1MB.",
+          variant: "destructive",
+        });
+        return;
+      }
       setSelectedImage(file);
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -220,7 +228,7 @@ export default function ImageToRecipePage() {
                         Click to upload or drag and drop
                       </div>
                       <div className="text-xs text-muted-foreground mt-1">
-                        PNG, JPG up to 10MB
+                        PNG, JPG up to 1MB
                       </div>
                     </Label>
                     <Input
