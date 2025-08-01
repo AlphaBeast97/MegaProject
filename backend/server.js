@@ -18,6 +18,7 @@ app.use(
       "http://localhost:3000",
       "http://localhost:9002",
       "https://mega-project-livid.vercel.app",
+      "https://cullinary-canvas.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
