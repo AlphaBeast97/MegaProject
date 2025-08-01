@@ -37,7 +37,6 @@ export default function ImageToRecipePage() {
         try {
           const base64Data = e.target?.result as string;
           const token = await getToken();
-
           const response = await fetch(`${API_URL}/upload-image`, {
             method: "POST",
             headers: {

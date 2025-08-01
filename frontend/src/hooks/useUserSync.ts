@@ -40,13 +40,11 @@ export function useUserSync() {
 
             if (createResponse.ok) {
               const createdUser = await createResponse.json();
-              console.log("User created:", createdUser._id);
             } else {
               console.error("Failed to create user:", createResponse.status);
             }
           } else if (userResponse.ok) {
             const existingUser = await userResponse.json();
-            console.log("User exists:", existingUser._id);
           }
         } catch (error) {
           console.error("Error syncing user:", error);
