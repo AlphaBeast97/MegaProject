@@ -55,7 +55,6 @@ export default function RecipesPage() {
                   new Date(a.createdAt || a._id).getTime()
               )
             : [];
-          const data = await response.json();
           setRecipes(data);
         } else {
           setError("Failed to fetch recipes");
