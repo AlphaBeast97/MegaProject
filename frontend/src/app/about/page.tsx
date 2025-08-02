@@ -153,7 +153,7 @@ const timeline = [
 
 export default function AboutPage() {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-purple-50 relative overflow-hidden">
+        <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-purple-50 relative overflow-hidden z-0">
             {/* Animated Background Elements */}
             <div className="absolute inset-0 overflow-hidden">
                 <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-orange-200 to-pink-200 rounded-full opacity-20 animate-pulse"></div>
@@ -162,59 +162,60 @@ export default function AboutPage() {
             </div>
 
             {/* Navigation */}
-            <div className="absolute top-8 left-8 z-10">
+            <div className="absolute top-6 sm:top-8 left-4 sm:left-8 z-10">
                 <Link href="/">
-                    <Button variant="ghost" className="hover:bg-white/80 backdrop-blur-sm shadow-lg">
-                        <ArrowLeft className="mr-2 h-4 w-4" />
-                        Back to Home
+                    <Button variant="ghost" className="hover:bg-white/80 backdrop-blur-sm shadow-lg text-sm sm:text-base">
+                        <ArrowLeft className="mr-1 sm:mr-2 h-4 w-4" />
+                        <span className="hidden sm:inline">Back to Home</span>
+                        <span className="sm:hidden">Back</span>
                     </Button>
                 </Link>
             </div>
 
-            <div className="container mx-auto px-4 py-16 relative z-10">
+            <div className="container mx-auto px-4 pt-16 sm:pt-20 pb-12 sm:pb-16 relative z-10">
                 {/* Hero Section */}
-                <div className="text-center mb-20">
-                    <div className="relative mb-8">
+                <div className="text-center mb-16 sm:mb-20">
+                    <div className="relative mb-6 sm:mb-8">
                         <div className="flex justify-center">
                             <div className="relative">
                                 <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-purple-600 rounded-full blur-xl opacity-30 animate-pulse"></div>
-                                <ChefHat className="h-24 w-24 text-orange-500 relative z-10 animate-bounce" />
-                                <div className="absolute -top-3 -right-3 z-20">
-                                    <Sparkles className="h-8 w-8 text-purple-500 animate-spin" />
+                                <ChefHat className="h-16 w-16 sm:h-20 md:h-24 sm:w-20 md:w-24 text-orange-500 relative z-10 animate-bounce" />
+                                <div className="absolute -top-2 sm:-top-3 -right-2 sm:-right-3 z-20">
+                                    <Sparkles className="h-6 w-6 sm:h-8 sm:w-8 text-purple-500 animate-spin" />
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <h1 className="text-6xl md:text-8xl font-black bg-gradient-to-r from-orange-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-6">
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black bg-gradient-to-r from-orange-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-4 sm:mb-6 px-2">
                         Culinary Canvas
                     </h1>
 
-                    <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto mb-8 leading-relaxed">
+                    <p className="text-lg sm:text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto mb-6 sm:mb-8 leading-relaxed px-4">
                         The future of cooking is here. Harness the power of AI to transform how you discover, create, and manage recipes.
                     </p>
 
-                    <div className="flex flex-wrap justify-center gap-4 mb-8">
-                        <span className="px-6 py-3 bg-gradient-to-r from-orange-100 to-orange-200 text-orange-700 rounded-full text-sm font-bold shadow-lg transform hover:scale-105 transition-transform">
+                    <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-6 sm:mb-8 px-4">
+                        <span className="px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-orange-100 to-orange-200 text-orange-700 rounded-full text-xs sm:text-sm font-bold shadow-lg transform hover:scale-105 transition-transform">
                             🤖 AI-Powered
                         </span>
-                        <span className="px-6 py-3 bg-gradient-to-r from-purple-100 to-purple-200 text-purple-700 rounded-full text-sm font-bold shadow-lg transform hover:scale-105 transition-transform">
+                        <span className="px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-purple-100 to-purple-200 text-purple-700 rounded-full text-xs sm:text-sm font-bold shadow-lg transform hover:scale-105 transition-transform">
                             🎨 Modern Design
                         </span>
-                        <span className="px-6 py-3 bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 rounded-full text-sm font-bold shadow-lg transform hover:scale-105 transition-transform">
+                        <span className="px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 rounded-full text-xs sm:text-sm font-bold shadow-lg transform hover:scale-105 transition-transform">
                             🚀 Lightning Fast
                         </span>
                     </div>
                 </div>
 
                 {/* Mission Statement */}
-                <div className="max-w-5xl mx-auto mb-20">
+                <div className="max-w-5xl mx-auto mb-16 sm:mb-20 px-4">
                     <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-2xl hover:shadow-3xl transition-all duration-500">
-                        <CardContent className="p-12">
-                            <h2 className="text-4xl font-bold text-center bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-8">
+                        <CardContent className="p-6 sm:p-8 md:p-12">
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-6 sm:mb-8">
                                 Our Mission
                             </h2>
-                            <p className="text-lg text-gray-700 leading-relaxed text-center">
+                            <p className="text-base sm:text-lg text-gray-700 leading-relaxed text-center">
                                 Culinary Canvas is a modern, intelligent recipe management application that transforms how you discover, create, and manage recipes. Built with cutting-edge AI technology, it offers innovative features like image-to-recipe generation, random recipe suggestions, and ingredients-based recipe creation.
                             </p>
                         </CardContent>
@@ -222,37 +223,37 @@ export default function AboutPage() {
                 </div>
 
                 {/* AI Features Section */}
-                <div className="mb-20">
-                    <div className="text-center mb-16">
-                        <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-6">
+                <div className="mb-16 sm:mb-20">
+                    <div className="text-center mb-12 sm:mb-16 px-4">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4 sm:mb-6">
                             AI-Powered Magic
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                        <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
                             Experience the cutting-edge artificial intelligence that makes cooking effortless and exciting
                         </p>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto px-4">
                         {aiFeatures.map((feature, index) => (
                             <Card
                                 key={index}
-                                className={`group relative overflow-hidden border-0 shadow-2xl hover:shadow-3xl transition-all duration-700 transform hover:-translate-y-6 hover:rotate-1 bg-gradient-to-br ${feature.bgGradient}`}
+                                className={`group relative overflow-hidden border-0 shadow-2xl hover:shadow-3xl transition-all duration-700 transform hover:-translate-y-3 sm:hover:-translate-y-6 hover:rotate-1 bg-gradient-to-br ${feature.bgGradient}`}
                             >
                                 <div className={`absolute inset-0 bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-700`}></div>
 
-                                <CardHeader className="text-center pb-6">
-                                    <div className="relative mb-6">
-                                        <div className={`w-20 h-20 mx-auto rounded-3xl bg-gradient-to-r ${feature.gradient} p-5 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 shadow-2xl`}>
-                                            <feature.icon className="w-10 h-10 text-white" />
+                                <CardHeader className="text-center pb-4 sm:pb-6">
+                                    <div className="relative mb-4 sm:mb-6">
+                                        <div className={`w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-2xl sm:rounded-3xl bg-gradient-to-r ${feature.gradient} p-4 sm:p-5 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 shadow-2xl`}>
+                                            <feature.icon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                                         </div>
                                     </div>
-                                    <CardTitle className="text-2xl font-bold text-gray-900 group-hover:text-gray-800 transition-colors">
+                                    <CardTitle className="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-gray-800 transition-colors px-2">
                                         {feature.title}
                                     </CardTitle>
                                 </CardHeader>
 
-                                <CardContent>
-                                    <p className="text-gray-600 leading-relaxed text-center text-lg">
+                                <CardContent className="px-4 sm:px-6">
+                                    <p className="text-gray-600 leading-relaxed text-center text-base sm:text-lg">
                                         {feature.description}
                                     </p>
                                 </CardContent>
@@ -262,46 +263,46 @@ export default function AboutPage() {
                 </div>
 
                 {/* Technology Stack */}
-                <div className="mb-20">
-                    <div className="text-center mb-16">
-                        <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent mb-6">
+                <div className="mb-16 sm:mb-20">
+                    <div className="text-center mb-12 sm:mb-16 px-4">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent mb-4 sm:mb-6">
                             Built with Modern Tech
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                        <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
                             Cutting-edge technologies powering exceptional user experiences
                         </p>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto px-4">
                         {techStack.map((stack, index) => (
                             <Card
                                 key={index}
-                                className={`group hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 hover:rotate-1 ${stack.bgColor} ${stack.borderColor} border-2 shadow-xl`}
+                                className={`group hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 sm:hover:-translate-y-4 hover:rotate-1 ${stack.bgColor} ${stack.borderColor} border-2 shadow-xl`}
                             >
                                 <CardHeader className="text-center">
-                                    <div className="flex justify-center mb-6">
-                                        <div className="w-16 h-16 rounded-2xl bg-white shadow-2xl flex items-center justify-center group-hover:scale-125 group-hover:rotate-12 transition-all duration-500">
-                                            <stack.icon className={`w-8 h-8 ${stack.color}`} />
+                                    <div className="flex justify-center mb-4 sm:mb-6">
+                                        <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-white shadow-2xl flex items-center justify-center group-hover:scale-125 group-hover:rotate-12 transition-all duration-500">
+                                            <stack.icon className={`w-6 h-6 sm:w-8 sm:h-8 ${stack.color}`} />
                                         </div>
                                     </div>
-                                    <CardTitle className={`text-2xl font-bold ${stack.color.replace('text-', 'text-')} group-hover:scale-105 transition-transform duration-300`}>
+                                    <CardTitle className={`text-xl sm:text-2xl font-bold ${stack.color.replace('text-', 'text-')} group-hover:scale-105 transition-transform duration-300 px-2`}>
                                         {stack.category}
                                     </CardTitle>
-                                    <p className="text-gray-600 mt-2 text-sm leading-relaxed">
+                                    <p className="text-gray-600 mt-2 text-xs sm:text-sm leading-relaxed px-2">
                                         {stack.description}
                                     </p>
                                 </CardHeader>
 
-                                <CardContent>
-                                    <ul className="space-y-4">
+                                <CardContent className="px-4 sm:px-6">
+                                    <ul className="space-y-3 sm:space-y-4">
                                         {stack.technologies.map((tech, techIndex) => (
                                             <li key={techIndex} className="group/tech">
-                                                <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-white/50 transition-colors duration-200">
-                                                    <div className={`w-8 h-8 rounded-lg ${stack.bgColor} flex items-center justify-center flex-shrink-0 mt-0.5 group-hover/tech:scale-110 transition-transform duration-200`}>
-                                                        <tech.icon className={`w-4 h-4 ${stack.color}`} />
+                                                <div className="flex items-start space-x-2 sm:space-x-3 p-2 sm:p-3 rounded-lg hover:bg-white/50 transition-colors duration-200">
+                                                    <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg ${stack.bgColor} flex items-center justify-center flex-shrink-0 mt-0.5 group-hover/tech:scale-110 transition-transform duration-200`}>
+                                                        <tech.icon className={`w-3 h-3 sm:w-4 sm:h-4 ${stack.color}`} />
                                                     </div>
                                                     <div>
-                                                        <div className="font-semibold text-gray-800 text-sm">
+                                                        <div className="font-semibold text-gray-800 text-xs sm:text-sm">
                                                             {tech.name}
                                                         </div>
                                                         <div className="text-gray-600 text-xs leading-relaxed">
@@ -319,27 +320,27 @@ export default function AboutPage() {
                 </div>
 
                 {/* Team Section */}
-                <div className="mb-20">
-                    <div className="text-center mb-16">
-                        <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-6">
+                <div className="mb-16 sm:mb-20">
+                    <div className="text-center mb-12 sm:mb-16 px-4">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4 sm:mb-6">
                             Meet the Dream Team
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                        <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
                             The brilliant minds and passionate developers behind Culinary Canvas
                         </p>
                     </div>
 
-                    <div className="flex flex-col lg:flex-row justify-center items-center gap-12 max-w-6xl mx-auto">
+                    <div className="flex flex-col lg:flex-row justify-center items-center gap-8 sm:gap-12 max-w-6xl mx-auto px-4">
                         {teamMembers.map((member, index) => (
                             <Card
                                 key={index}
-                                className="group w-full lg:w-96 hover:shadow-3xl transition-all duration-700 transform hover:-translate-y-8 hover:rotate-2 bg-white border-0 shadow-2xl overflow-hidden"
+                                className="group w-full max-w-sm lg:w-96 hover:shadow-3xl transition-all duration-700 transform hover:-translate-y-4 sm:hover:-translate-y-8 hover:rotate-2 bg-white border-0 shadow-2xl overflow-hidden"
                             >
-                                <CardHeader className="text-center pb-6 bg-gradient-to-br from-gray-50 to-white relative">
+                                <CardHeader className="text-center pb-4 sm:pb-6 bg-gradient-to-br from-gray-50 to-white relative">
                                     <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                                    <div className="relative mb-6">
-                                        <div className={`w-24 h-24 mx-auto rounded-full bg-gradient-to-r ${member.color} flex items-center justify-center text-white text-3xl font-black group-hover:scale-125 transition-transform duration-500 shadow-2xl`}>
+                                    <div className="relative mb-4 sm:mb-6">
+                                        <div className={`w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full bg-gradient-to-r ${member.color} flex items-center justify-center text-white text-2xl sm:text-3xl font-black group-hover:scale-125 transition-transform duration-500 shadow-2xl`}>
                                             {member.avatar}
                                         </div>
                                     </div>
@@ -350,18 +351,18 @@ export default function AboutPage() {
                                         rel="noopener noreferrer"
                                         className="group/link relative"
                                     >
-                                        <CardTitle className="text-2xl font-bold text-gray-900 group-hover/link:text-blue-600 transition-colors duration-300 mb-3">
+                                        <CardTitle className="text-xl sm:text-2xl font-bold text-gray-900 group-hover/link:text-blue-600 transition-colors duration-300 mb-2 sm:mb-3 px-2">
                                             {member.name}
                                         </CardTitle>
                                     </Link>
 
-                                    <p className="text-sm font-bold text-orange-600 mb-2">
+                                    <p className="text-xs sm:text-sm font-bold text-orange-600 mb-2 px-2">
                                         {member.role}
                                     </p>
                                 </CardHeader>
 
-                                <CardContent className="relative">
-                                    <p className="text-gray-600 text-center leading-relaxed mb-6 text-lg">
+                                <CardContent className="relative px-4 sm:px-6">
+                                    <p className="text-gray-600 text-center leading-relaxed mb-4 sm:mb-6 text-sm sm:text-lg">
                                         {member.description}
                                     </p>
 
@@ -371,11 +372,12 @@ export default function AboutPage() {
                                         rel="noopener noreferrer"
                                     >
                                         <Button
-                                            className="w-full bg-gradient-to-r from-gray-800 to-gray-900 hover:from-blue-600 hover:to-purple-600 text-white font-bold py-3 transition-all duration-300 transform hover:scale-105"
+                                            className="w-full bg-gradient-to-r from-gray-800 to-gray-900 hover:from-blue-600 hover:to-purple-600 text-white font-bold py-2 sm:py-3 transition-all duration-300 transform hover:scale-105 text-sm sm:text-base"
                                         >
-                                            <Github className="mr-2 h-5 w-5" />
-                                            View GitHub Profile
-                                            <ExternalLink className="ml-2 h-4 w-4" />
+                                            <Github className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                                            <span className="hidden sm:inline">View GitHub Profile</span>
+                                            <span className="sm:hidden">GitHub</span>
+                                            <ExternalLink className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />
                                         </Button>
                                     </Link>
                                 </CardContent>
@@ -385,27 +387,28 @@ export default function AboutPage() {
                 </div>
 
                 {/* Call to Action */}
-                <div className="text-center mb-16">
-                    <div className="bg-gradient-to-r from-orange-500 to-purple-600 rounded-3xl p-16 max-w-5xl mx-auto text-white shadow-2xl relative overflow-hidden">
+                <div className="text-center mb-12 sm:mb-16">
+                    <div className="bg-gradient-to-r from-orange-500 to-purple-600 rounded-2xl sm:rounded-3xl p-8 sm:p-12 md:p-16 max-w-5xl mx-auto text-white shadow-2xl relative overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-r from-pink-500 to-blue-500 opacity-0 hover:opacity-100 transition-opacity duration-1000"></div>
 
                         <div className="relative z-10">
-                            <h2 className="text-4xl md:text-5xl font-black mb-6">
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-4 sm:mb-6">
                                 Ready to Transform Your Cooking?
                             </h2>
-                            <p className="text-xl mb-10 opacity-90 leading-relaxed">
+                            <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 md:mb-10 opacity-90 leading-relaxed">
                                 Join thousands of home chefs using AI to discover amazing recipes and revolutionize their kitchen experience
                             </p>
 
-                            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
                                 <Link href="https://github.com/AlphaBeast97/MegaProject" target="_blank" rel="noopener noreferrer">
                                     <Button
                                         size="lg"
-                                        className="bg-white text-purple-600 hover:bg-gray-100 font-bold px-8 py-4 rounded-2xl shadow-2xl transform hover:scale-110 transition-all duration-300"
+                                        className="w-full sm:w-auto bg-white text-purple-600 hover:bg-gray-100 font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl shadow-2xl transform hover:scale-110 transition-all duration-300 text-sm sm:text-base"
                                     >
-                                        <Github className="mr-3 h-6 w-6" />
-                                        View Source Code
-                                        <ExternalLink className="ml-3 h-5 w-5" />
+                                        <Github className="mr-2 sm:mr-3 h-5 w-5 sm:h-6 sm:w-6" />
+                                        <span className="hidden sm:inline">View Source Code</span>
+                                        <span className="sm:hidden">Source Code</span>
+                                        <ExternalLink className="ml-2 sm:ml-3 h-4 w-4 sm:h-5 sm:w-5" />
                                     </Button>
                                 </Link>
 
@@ -413,10 +416,11 @@ export default function AboutPage() {
                                     <Button
                                         size="lg"
                                         variant="outline"
-                                        className="border-2 border-white text-white hover:bg-white hover:text-purple-600 font-bold px-8 py-4 rounded-2xl shadow-2xl transform hover:scale-110 transition-all duration-300 bg-purple-600/20 backdrop-blur-sm"
+                                        className="w-full sm:w-auto border-2 border-white text-white hover:bg-white hover:text-purple-600 font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl shadow-2xl transform hover:scale-110 transition-all duration-300 bg-purple-600/20 backdrop-blur-sm text-sm sm:text-base"
                                     >
-                                        <Rocket className="mr-3 h-6 w-6" />
-                                        Try Culinary Canvas
+                                        <Rocket className="mr-2 sm:mr-3 h-5 w-5 sm:h-6 sm:w-6" />
+                                        <span className="hidden sm:inline">Try Culinary Canvas</span>
+                                        <span className="sm:hidden">Try Now</span>
                                     </Button>
                                 </Link>
                             </div>
@@ -427,11 +431,11 @@ export default function AboutPage() {
                 {/* Footer */}
                 <div className="text-center">
                     <Card className="bg-white/50 backdrop-blur-sm border-0 shadow-xl max-w-2xl mx-auto">
-                        <CardContent className="p-8">
-                            <p className="flex items-center justify-center text-lg text-gray-600">
-                                Made with
-                                <Heart className="h-6 w-6 mx-2 text-red-500 animate-pulse" />
-                                and cutting-edge AI by the Culinary Canvas Team
+                        <CardContent className="p-6 sm:p-8">
+                            <p className="flex items-center justify-center text-base sm:text-lg text-gray-600 flex-wrap">
+                                <span className="mr-2">Made with</span>
+                                <Heart className="h-5 w-5 sm:h-6 sm:w-6 mx-1 sm:mx-2 text-red-500 animate-pulse" />
+                                <span className="ml-1 sm:ml-2">and cutting-edge AI by the Culinary Canvas Team</span>
                             </p>
                         </CardContent>
                     </Card>
