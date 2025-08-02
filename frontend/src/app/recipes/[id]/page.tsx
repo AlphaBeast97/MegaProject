@@ -7,7 +7,14 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Utensils, Clock, Users, Loader2, ArrowLeft, ChefHat, Sparkles } from "lucide-react";
+import {
+  Utensils,
+  Clock,
+  Users,
+  ArrowLeft,
+  ChefHat,
+  Sparkles,
+} from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Recipe } from "@/types";
@@ -75,7 +82,9 @@ export default function RecipeDetailPage() {
                   <ChefHat className="h-6 w-6 sm:h-8 sm:w-8 text-orange-500 animate-bounce" />
                 </div>
               </div>
-              <span className="text-base sm:text-lg text-gray-600 font-medium">Loading recipe...</span>
+              <span className="text-base sm:text-lg text-gray-600 font-medium">
+                Loading recipe...
+              </span>
             </div>
           </div>
         </div>
@@ -90,7 +99,10 @@ export default function RecipeDetailPage() {
 
         <div className="container mx-auto px-4 pt-12 sm:pt-16 pb-12 relative z-0">
           <Link href="/recipes">
-            <Button variant="ghost" className="mb-4 sm:mb-6 hover:bg-red-100 transition-colors duration-200">
+            <Button
+              variant="ghost"
+              className="mb-4 sm:mb-6 hover:bg-red-100 transition-colors duration-200"
+            >
               <ArrowLeft className="mr-2 h-4 w-4" />
               <span className="hidden sm:inline">Back to Recipes</span>
               <span className="sm:hidden">Back</span>
@@ -100,8 +112,12 @@ export default function RecipeDetailPage() {
             <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-red-200 to-rose-200 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 animate-float">
               <ChefHat className="h-8 w-8 sm:h-10 sm:w-10 text-red-500" />
             </div>
-            <h2 className="text-xl sm:text-2xl font-semibold mb-2 text-red-600">Error</h2>
-            <p className="text-sm sm:text-base text-gray-600">{error || "Recipe not found"}</p>
+            <h2 className="text-xl sm:text-2xl font-semibold mb-2 text-red-600">
+              Error
+            </h2>
+            <p className="text-sm sm:text-base text-gray-600">
+              {error || "Recipe not found"}
+            </p>
           </div>
         </div>
       </div>
@@ -118,7 +134,10 @@ export default function RecipeDetailPage() {
 
       <div className="container mx-auto px-4 pt-12 sm:pt-16 pb-12 max-w-6xl relative z-0">
         <Link href="/recipes" passHref>
-          <Button variant="ghost" className="mb-4 sm:mb-6 hover:bg-orange-100 transition-colors duration-200 animate-fade-in-left">
+          <Button
+            variant="ghost"
+            className="mb-4 sm:mb-6 hover:bg-orange-100 transition-colors duration-200 animate-fade-in-left"
+          >
             <ArrowLeft className="mr-2 h-4 w-4" />
             <span className="hidden sm:inline">Back to Recipes</span>
             <span className="sm:hidden">Back</span>
@@ -153,21 +172,27 @@ export default function RecipeDetailPage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 mb-6 sm:mb-8 text-center animate-fade-in-up delay-600">
               <div className="flex flex-col items-center justify-center p-3 sm:p-4 bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl shadow-sm border border-orange-100 hover:shadow-md transition-all duration-300 group">
                 <Clock className="h-5 w-5 sm:h-6 sm:w-6 mb-2 text-orange-500 group-hover:scale-110 transition-transform duration-200" />
-                <span className="font-semibold text-sm sm:text-base text-gray-800">Prep Time</span>
+                <span className="font-semibold text-sm sm:text-base text-gray-800">
+                  Prep Time
+                </span>
                 <span className="text-xs sm:text-sm text-gray-600 font-medium">
                   {recipe.prepTime || "N/A"}
                 </span>
               </div>
               <div className="flex flex-col items-center justify-center p-3 sm:p-4 bg-gradient-to-br from-amber-50 to-yellow-50 rounded-xl shadow-sm border border-amber-100 hover:shadow-md transition-all duration-300 group">
                 <Utensils className="h-5 w-5 sm:h-6 sm:w-6 mb-2 text-amber-500 group-hover:scale-110 transition-transform duration-200" />
-                <span className="font-semibold text-sm sm:text-base text-gray-800">Cook Time</span>
+                <span className="font-semibold text-sm sm:text-base text-gray-800">
+                  Cook Time
+                </span>
                 <span className="text-xs sm:text-sm text-gray-600 font-medium">
                   {recipe.cookTime || "N/A"}
                 </span>
               </div>
               <div className="flex flex-col items-center justify-center p-3 sm:p-4 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl shadow-sm border border-yellow-100 hover:shadow-md transition-all duration-300 group">
                 <Users className="h-5 w-5 sm:h-6 sm:w-6 mb-2 text-yellow-600 group-hover:scale-110 transition-transform duration-200" />
-                <span className="font-semibold text-sm sm:text-base text-gray-800">Created</span>
+                <span className="font-semibold text-sm sm:text-base text-gray-800">
+                  Created
+                </span>
                 <span className="text-xs sm:text-sm text-gray-600 font-medium">
                   {recipe.createdAt
                     ? new Date(recipe.createdAt).toLocaleDateString()
@@ -186,7 +211,11 @@ export default function RecipeDetailPage() {
                   <ul className="space-y-2 sm:space-y-3">
                     {recipe.ingredients?.length > 0 ? (
                       recipe.ingredients.map((ingredient, index) => (
-                        <li key={index} className="flex items-center space-x-2 sm:space-x-3 group animate-slide-in-left" style={{ animationDelay: `${index * 100}ms` }}>
+                        <li
+                          key={index}
+                          className="flex items-center space-x-2 sm:space-x-3 group animate-slide-in-left"
+                          style={{ animationDelay: `${index * 100}ms` }}
+                        >
                           <Checkbox
                             id={`ingredient-${index}`}
                             className="border-orange-300 data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500"
@@ -200,7 +229,9 @@ export default function RecipeDetailPage() {
                         </li>
                       ))
                     ) : (
-                      <p className="text-sm text-gray-500">No ingredients listed</p>
+                      <p className="text-sm text-gray-500">
+                        No ingredients listed
+                      </p>
                     )}
                   </ul>
                 </div>
@@ -215,7 +246,11 @@ export default function RecipeDetailPage() {
                   <ol className="space-y-3 sm:space-y-4">
                     {recipe.instructions?.length > 0 ? (
                       recipe.instructions.map((instruction, index) => (
-                        <li key={index} className="flex space-x-3 sm:space-x-4 group animate-slide-in-right" style={{ animationDelay: `${index * 150}ms` }}>
+                        <li
+                          key={index}
+                          className="flex space-x-3 sm:space-x-4 group animate-slide-in-right"
+                          style={{ animationDelay: `${index * 150}ms` }}
+                        >
                           <span className="flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-r from-amber-500 to-yellow-500 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-medium group-hover:scale-110 transition-transform duration-200">
                             {index + 1}
                           </span>

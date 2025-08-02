@@ -12,7 +12,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search, Loader2, BookOpen, PlusCircle, ChefHat, Sparkles, Filter } from "lucide-react";
+import {
+  Search,
+  BookOpen,
+  PlusCircle,
+  ChefHat,
+  Sparkles,
+  Filter,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
@@ -51,10 +58,10 @@ export default function RecipesPage() {
           // Sort recipes by creation date (newest first)
           const sortedRecipes = Array.isArray(data)
             ? data.sort(
-              (a, b) =>
-                new Date(b.createdAt || b._id).getTime() -
-                new Date(a.createdAt || a._id).getTime()
-            )
+                (a, b) =>
+                  new Date(b.createdAt || b._id).getTime() -
+                  new Date(a.createdAt || a._id).getTime()
+              )
             : [];
           setRecipes(sortedRecipes);
         } else {
@@ -100,7 +107,9 @@ export default function RecipesPage() {
                   <ChefHat className="h-6 w-6 sm:h-8 sm:w-8 text-blue-500 animate-bounce" />
                 </div>
               </div>
-              <span className="text-base sm:text-lg text-gray-600 font-medium">Loading recipes...</span>
+              <span className="text-base sm:text-lg text-gray-600 font-medium">
+                Loading recipes...
+              </span>
             </div>
           </div>
         </div>
@@ -118,7 +127,9 @@ export default function RecipesPage() {
             <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-red-200 to-rose-200 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 animate-float">
               <ChefHat className="h-8 w-8 sm:h-10 sm:w-10 text-red-500" />
             </div>
-            <h2 className="text-xl sm:text-2xl font-semibold mb-2 text-red-600">Error</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold mb-2 text-red-600">
+              Error
+            </h2>
             <p className="text-sm sm:text-base text-gray-600">{error}</p>
           </div>
         </div>
@@ -151,7 +162,6 @@ export default function RecipesPage() {
             Browse, search, and get inspired by your saved recipes. 📚✨
           </p>
         </div>
-
       </div>
 
       {recipes.length > 0 && (
@@ -188,14 +198,19 @@ export default function RecipesPage() {
             <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-200 to-indigo-200 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 animate-float">
               <BookOpen className="h-8 w-8 sm:h-10 sm:w-10 text-blue-500" />
             </div>
-            <h3 className="text-lg sm:text-xl font-semibold mb-2 text-gray-800">No recipes yet</h3>
+            <h3 className="text-lg sm:text-xl font-semibold mb-2 text-gray-800">
+              No recipes yet
+            </h3>
             <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 max-w-md mx-auto">
-              Start building your culinary collection by creating your first recipe.
+              Start building your culinary collection by creating your first
+              recipe.
             </p>
             <Link href="/recipes/new">
               <Button className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 text-sm sm:text-base">
                 <PlusCircle className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                <span className="hidden sm:inline">Create Your First Recipe</span>
+                <span className="hidden sm:inline">
+                  Create Your First Recipe
+                </span>
                 <span className="sm:hidden">Create Recipe</span>
               </Button>
             </Link>
@@ -218,7 +233,9 @@ export default function RecipesPage() {
           <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-purple-200 to-blue-200 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 animate-float">
             <Search className="h-8 w-8 sm:h-10 sm:w-10 text-purple-500" />
           </div>
-          <h2 className="text-xl sm:text-2xl font-semibold mb-2 text-gray-800">No Recipes Found</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold mb-2 text-gray-800">
+            No Recipes Found
+          </h2>
           <p className="text-sm sm:text-base text-gray-600">
             Try adjusting your search or filter.
           </p>
