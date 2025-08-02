@@ -55,7 +55,7 @@ export default function RecipesPage() {
                   new Date(a.createdAt || a._id).getTime()
               )
             : [];
-          setRecipes(data);
+          setRecipes(sortedRecipes);
         } else {
           setError("Failed to fetch recipes");
         }

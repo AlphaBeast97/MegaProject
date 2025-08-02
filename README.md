@@ -62,6 +62,12 @@ Culinary Canvas is a modern, intelligent recipe management application that tran
 - **Image Generation**: AI-powered recipe image creation
 - **Workflow Engine**: n8n for AI pipeline orchestration
 
+## 🤖 n8n Workflow Automation
+
+I have also implemented n8n workflows to automate the recipe generation process. Here is a screenshot of the workflow:
+
+![n8n Workflow](frontend/public/Screenshot%202025-08-01%20170913.png)
+
 ## 🚀 Quick Start
 
 ### Prerequisites
