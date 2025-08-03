@@ -19,6 +19,7 @@ app.use(
       "http://localhost:9002",
       "https://mega-project-livid.vercel.app",
       "https://cullinary-canvas.vercel.app",
+      "https://n8n-service-pye1.onrender.com",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
