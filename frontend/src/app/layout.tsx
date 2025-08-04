@@ -18,6 +18,10 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <head>
+          <meta
+            name="google-site-verification"
+            content="n1SZPGUUf7D-wS9zgMoqhz3msaeZYim_JzjgzoPLgXI"
+          />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
             rel="preconnect"
